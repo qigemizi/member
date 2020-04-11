@@ -3,6 +3,7 @@ package com.wq.member.controller;
 
 import com.wq.member.common.api.CommonResult;
 import com.wq.member.dto.UserParam;
+import com.wq.member.model.User;
 import com.wq.member.service.UserService;
 import io.minio.MinioClient;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -42,7 +44,10 @@ public class UserController {
 
         System.out.println("前端页面的点击事件传过来了！");
         System.out.println("userParam="+userParam.toString());
-        // userService.register(userParam);
+        //
+        User user = new User();
+        user.setUsername(userParam);
+        userService.register(userParam);
         return CommonResult.success("200");
     }
 

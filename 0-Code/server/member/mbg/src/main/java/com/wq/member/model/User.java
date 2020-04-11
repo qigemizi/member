@@ -6,8 +6,8 @@ import java.io.Serializable;
 public class User implements Serializable {
     private Integer id;
 
-    @ApiModelProperty(value = "账号")
-    private String name;
+    @ApiModelProperty(value = "用户名")
+    private String username;
 
     @ApiModelProperty(value = "密码")
     private String password;
@@ -22,12 +22,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -45,7 +45,7 @@ public class User implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", username=").append(username);
         sb.append(", password=").append(password);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

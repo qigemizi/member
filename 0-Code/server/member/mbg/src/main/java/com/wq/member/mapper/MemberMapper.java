@@ -10,6 +10,8 @@ public interface MemberMapper {
 
     int deleteByExample(MemberExample example);
 
+    int deleteByPrimaryKey(Integer id);
+
     int insert(Member record);
 
     int insertSelective(Member record);
