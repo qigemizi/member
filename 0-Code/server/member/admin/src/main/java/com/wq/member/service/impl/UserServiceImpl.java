@@ -6,8 +6,6 @@ import com.wq.member.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -15,11 +13,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public void register(Map<String, String> map) {
-
-        User user=new User();
-        user.setName(map.get("name"));
-        user.setPassword(map.get("password"));
+    public void register(User user) {
+        
         userMapper.insert(user);
 
     }
