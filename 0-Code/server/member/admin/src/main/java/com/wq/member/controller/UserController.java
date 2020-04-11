@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -46,8 +45,9 @@ public class UserController {
         System.out.println("userParam="+userParam.toString());
         //
         User user = new User();
-        user.setUsername(userParam);
-        userService.register(userParam);
+        user.setUsername(userParam.getUsername());
+        user.setPassword(userParam.getPassword());
+        userService.register(user);
         return CommonResult.success("200");
     }
 

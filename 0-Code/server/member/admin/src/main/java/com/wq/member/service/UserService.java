@@ -1,11 +1,11 @@
 package com.wq.member.service;
 
-import java.util.Map;
+import com.wq.member.model.User;
 
 public interface UserService {
     /**
      * 注册使用者
      */
-    void register(Map<String,String> map);
+    void register(User user);
 
 }
