@@ -51,6 +51,19 @@ public class UserController {
         return CommonResult.success("200");
     }
 
+    /**
+     * 下载管理员Excel
+     * @param
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/userExcel")
+    public CommonResult<?> userExcel(){
+
+        userService.userExcel();
+        return CommonResult.success("200");
+    }
+
 
 //    @ResponseBody
 //    @PostMapping("/signOut")
@@ -73,12 +86,12 @@ public class UserController {
             @RequestParam("file") MultipartFile multipartFile
     ) {
         System.out.println("前端页面的点击事件传过来了！");
-        System.out.println("categoryId="+categoryId + tag + description + prefix +multipartFile);
+        System.out.println("categoryId="+categoryId + tag + description + prefix + multipartFile);
         try {
             System.out.println("multipartFile.getSize()="+multipartFile.getSize());
             InputStream is = multipartFile.getInputStream();
             String s=multipartFile.getContentType();
-
+            multipartFile.getName();
             System.out.println("s=" + s + " ,multipartFile.getSize()="+multipartFile.getSize());
             MinioClient minioClient = new MinioClient("http://192.168.10.77:9000", "minioadmin", "minioadmin");
             minioClient.listBuckets();
