@@ -5,7 +5,12 @@ import com.wq.member.common.api.CommonResult;
 import com.wq.member.dto.UserParam;
 import com.wq.member.model.User;
 import com.wq.member.service.UserService;
+import com.wq.member.util.FileNameUtil;
+import com.wq.member.util.MinioUtil;
 import io.minio.MinioClient;
+import io.minio.Result;
+import io.minio.messages.Item;
+import io.swagger.annotations.Api;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
+@Api(value = "user")
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
@@ -73,11 +81,40 @@ public class UserController {
 //        return userService.signOut(user);
 //    }
 
+    @ResponseBody
+    @PostMapping("/listObjects")
+    public CommonResult<?> listObjects(){
+        String bucketName = "download";
+        // 存放文件名称
+        Map<Integer,String> map = new HashMap<>();
+        int i=0;
+        try {
+            MinioClient minioClient =MinioUtil.getMinioClient();
+            // 检查 bucket 是否存在。
+            boolean found = minioClient.bucketExists(bucketName);
+            if (found) {
+                // 列出对象
+                Iterable<Result<Item>> myObjects = minioClient.listObjects(bucketName);
+                for (Result<Item> result : myObjects) {
+                    Item item = result.get();
+                    System.out.println(item.lastModified() + ", " + item.size() + ", " + item.objectName()); //Mon Mar 16 09:56:02 CST 2020, 6, 12345.xlsx
+                    String preFileName = FileNameUtil.preFileName(item.objectName());
+                    map.put(i++,preFileName);
+                }
+            } else {
+                System.out.println("mybucket does not exist");
+            }
+        } catch (Exception e) {
+            System.out.println("Error occurred: " + e);
+        }
+        return CommonResult.success(map);
+    }
+
 
 
     @ResponseBody
     // @PostMapping("/upload")
-    @RequestMapping("/upload")
+    @RequestMapping(value = "/upload" ,method = RequestMethod.POST)
     public String uploadController(
             int categoryId,
             String tag,
@@ -110,7 +147,7 @@ public class UserController {
      * @param request
      * @return
      */
-    @RequestMapping("/download")
+    @RequestMapping(value = "/download" ,method = RequestMethod.POST)
     public Object downloadFile(HttpServletResponse response, HttpServletRequest request){
         System.out.println("进入downloadFile方法");
         OutputStream os = null;

@@ -58,6 +58,7 @@
   </form>
 
   <el-button type="primary" @click="download2">下载<i class="el-icon-download el-icon--right"></i></el-button>
+  <el-button type="primary" @click="listObjects">列出下载桶里面的所有文件<i class="el-icon-download el-icon--right"></i></el-button>
     <!-- <form> -->
 
      <!-- <input type="button" value="登录" @click="doLogin">
@@ -238,6 +239,17 @@ export default {
             } else { // 其他浏览器 
                 navigator.msSaveBlob(blob, fileName) 
                 } 
+            }).catch((error) => { 
+                console.log(error) 
+            }); 
+        },
+
+       listObjects() {
+        axios({
+          method:"POST",
+          url:"/user/listObjects/",
+        }).then(function(res) { 
+        
             }).catch((error) => { 
                 console.log(error) 
             }); 
