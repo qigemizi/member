@@ -7,6 +7,7 @@ import com.wq.member.model.User;
 import com.wq.member.service.UserService;
 import com.wq.member.util.FileNameUtil;
 import com.wq.member.util.MinioUtil;
+import com.wq.member.util.VerifyCodeUtil;
 import io.minio.MinioClient;
 import io.minio.Result;
 import io.minio.messages.Item;
@@ -19,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -193,6 +196,22 @@ public class UserController {
             }
         }
         return null;
+    }
+
+    @RequestMapping(value = "/verifyCode" ,method = RequestMethod.GET)
+    public void verifyCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        VerifyCodeUtil code = new VerifyCodeUtil();
+        System.out.println("code="+code);
+        BufferedImage image = code.getImage();
+        System.out.println("image="+image);
+        String text = code.getText();
+        System.out.println("text="+text);
+        HttpSession session = request.getSession(true);
+        System.out.println("session="+session);
+        session.setAttribute("verify_code", text);
+
+        VerifyCodeUtil.output(image, response.getOutputStream());
+        System.out.println("response="+response);
     }
 
 }

@@ -24,6 +24,13 @@
         </div>
       </el-form-item>
 
+      <el-form-item label="验证码">
+        <!-- <div class="verifycode"> -->
+          <el-input size="normal" type="text" v-model="loginData.verifycode" auto-complete="off"
+                          placeholder="点击图片更换验证码" @keydown.enter.native="submitLogin" style="width: 250px"></el-input>
+          <img :src="vcUrl" @click="updateVerifyCode" alt="验证码" >
+        <!-- </div> -->
+      </el-form-item>
       
       <el-form-item>
         <el-button type="primary" @click="doLogin">登录</el-button>
@@ -83,16 +90,29 @@ export default {
   name: 'login',
   data () {
     return {
+     
       loginData:{
         username:"",
-        password:""
+        password:"",
+        verifycode:""
       },
       someData:"success",
-      fileList: []
-    
+      fileList: [],
+      vcUrl: '/user/verifyCode?time='+new Date(),
     }
   },
   methods:{
+    updateVerifyCode(){    
+      let success=(response)=>{
+        vcUrl:'/user/verifyCode?time='+new Date()
+      }
+      utils.axiosMethod({
+        method:"GET",
+        url:'/user/verifyCode',
+        callback:success
+      })},
+      
+    submitLogin(){},
     doLogin(){
       let success=(response)=>{
         // alert(response.data.msg);
