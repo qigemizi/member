@@ -12,3 +12,9 @@ server:
 #mybatis:
 #  mapper-locations:
 #    - classpath:mapping/*.xml
+
+
+minio:
+  endpoint: http://192.168.10.77:9000 #MinIO服务所在地址
+  accessKey: minioadmin #访问的key
+  secretKey: minioadmin #访问的秘钥
