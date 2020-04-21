@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,11 +31,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             // 跨域预检请求
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .antMatchers("/user/doLogin").permitAll()
-            // 经过反复试验，这样 /user/register 就可以不受认证
+                .antMatchers("/user/verifyCode").permitAll()
+
+                // 经过反复试验，这样 /user/register 就可以不受认证
             // .antMatchers("/user/register").permitAll()
             .anyRequest()
             .authenticated();
 
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/css/**","/js/**","/index.html","/img/**","/fonts/**","/favicon.ico","/verifyCode");
     }
 
     
