@@ -33,7 +33,7 @@ public class UserController {
 
 
     @ResponseBody
-    @PostMapping("/login")
+    @PostMapping("/doLogin")
     public String login(@RequestBody String s){
         System.out.println("前端页面的点击事件传过来了！");
         System.out.println("s="+s);

@@ -96,7 +96,7 @@ export default {
     doLogin(){
       let success=(response)=>{
         // alert(response.data.msg);
-        alert(JSON.stringify(response));
+        // alert(JSON.stringify(response));
         console.log(JSON.stringify(response));
         // if (response.data.code===0){
           this.$router.push("/welcome")
@@ -105,7 +105,7 @@ export default {
       }
       utils.axiosMethod({
         method:"POST",
-        url:"/user/login/",
+        url:"/user/doLogin",
         data:this.someData,
         callback:success
       })

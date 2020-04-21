@@ -62,19 +62,41 @@ export default {
   },
   methods: {
     onSubmit(){
-      let success=(response)=>{
-      
-        // if (response.data.code===0){
-          // this.$router.push("/welcome")
+      // console.log("response1")
+      // let success=(response)=>{
+      //   console.log("response2")
+      //   console.log(JSON.stringify(response))
+      //   // if (response.data.code===0){
+      //   //   this.$router.push("/welcome")
 
-        // }
-      }
-      utils.axiosMethod({
+      //   // }
+      // }
+      // utils.axiosMethod({
+      //   method:"POST",
+      //   url:"/user/register",
+      //   data:this.form,
+      //   callback:success
+      // })
+      
+      // 今天使用this.$router.push突然报错了，经过查阅资料，是因为this的指向有问题,只需要在函数前将this记录下来，即可。
+      const that = this;
+      axios({
         method:"POST",
-        url:"/user/register/",
+        url:"/user/register",
         data:this.form,
-        callback:success
-      })
+      }).then(function(res) { 
+          console.log("res")
+          console.log(JSON.stringify(res))
+          if (res.data.code===500){
+            // 跳转到登录页
+            that.$router.push("/")
+          }
+          }).catch((error) => { 
+              console.log("error：")
+              console.log(error) 
+          
+          });
+
     },
     onCancel(){
        this.$router.push("/")
