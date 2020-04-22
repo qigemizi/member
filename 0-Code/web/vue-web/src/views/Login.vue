@@ -26,7 +26,7 @@
 
       <el-form-item label="验证码">
         <!-- <div class="verifycode"> -->
-          <el-input size="normal" type="text" v-model="loginData.verifycode" auto-complete="off"
+          <el-input size="normal" type="text" v-model="loginData.verifyCode" auto-complete="off"
                           placeholder="点击图片更换验证码" @keydown.enter.native="submitLogin" style="width: 250px"></el-input>
           <img :src="vcUrl" @click="updateVerifyCode" alt="验证码" >
         <!-- </div> -->
@@ -94,7 +94,7 @@ export default {
       loginData:{
         username:"",
         password:"",
-        verifycode:""
+        verifyCode:""
       },
       someData:"success",
       fileList: [],
@@ -111,7 +111,7 @@ export default {
         url:'/user/verifyCode',
         callback:success
       })},
-      
+
     submitLogin(){},
     doLogin(){
       let success=(response)=>{
@@ -124,9 +124,12 @@ export default {
         // }
       }
       utils.axiosMethod({
+        headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+        },
         method:"POST",
         url:"/user/doLogin",
-        data:this.someData,
+        data:JSON.stringify(this.loginData),
         callback:success
       })
     },
@@ -144,7 +147,7 @@ export default {
       utils.axiosMethod({
         method:"POST",
         url:"/user/signOut/",
-        data:this.loginData,
+        data:Qs.stringify(this.loginData),
         callback:success
       })
     },

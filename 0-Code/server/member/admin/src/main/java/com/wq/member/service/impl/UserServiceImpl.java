@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,5 +35,15 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public User findByUsername(String username) {
+         return userMapper.selectByPrimaryKey(1);
+    }
+
+    @Override
+    public Set<String> findPermissions(String username) {
+        return null;
     }
 }
