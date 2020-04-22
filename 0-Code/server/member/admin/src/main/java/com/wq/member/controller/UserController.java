@@ -46,9 +46,9 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/doLogin")
-    public String login(@RequestBody UserParam userParam, HttpServletRequest request){
+    public CommonResult login(@RequestBody UserParam userParam, HttpServletRequest request){
 
-        System.out.println("前端页面的点击事件传过来了！userParam="+userParam.toString());
+        System.out.println("前端页面的点击事件传过来了！user/doLogin.userParam="+userParam.toString());
         String username = userParam.getUsername();
         String password = userParam.getPassword();
         // 自定义认证token对象
@@ -64,7 +64,7 @@ public class UserController {
         // 生成令牌并返回给客户端
         jwtAuthenticationToken.setToken(token);
 
-        return token;
+        return CommonResult.success(token);
         // 系统登录认证
         // JwtAuthenticatioToken token = SecurityUtils.login(request, username, password, authenticationManager);
 
