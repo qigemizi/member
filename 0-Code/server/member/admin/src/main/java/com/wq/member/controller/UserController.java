@@ -51,6 +51,7 @@ public class UserController {
         System.out.println("前端页面的点击事件传过来了！userParam="+userParam.toString());
         String username = userParam.getUsername();
         String password = userParam.getPassword();
+        // 这段类似实现UsernamePasswordAuthenticationFilter的源码
         // 自定义认证token对象
         JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(username, password);
         jwtAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
