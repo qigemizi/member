@@ -81,8 +81,8 @@
 </template>
 
 <script>
-import utils from "../utils/utils"
-import axios from 'axios'
+import utils from "../utils/utils";
+import axios from "axios";
 
 export default {
   data() {
@@ -207,7 +207,7 @@ export default {
       // 编辑按钮
       console.log(row);
     },
-
+    // 不能使用，使用postman可以，在这里就报404，还是跨域的问题，在跨域配置文件里面改好了
     refresh() {
       let success = response => {
         // alert(response.data.msg);
@@ -220,10 +220,28 @@ export default {
         headers: {
           "Content-Type": "application/json;charset=utf-8"
         },
-        method: "POST",
+        method: "GET",
         url: "/member/list",
         callback: success
       });
+    },
+
+    // 和上面效果一样
+    refreshOK() {
+      axios({
+        headers: {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        method: "GET",
+        url: "/user/list"
+      })
+        .then(response => {
+          this.tableData = response.data.data;
+          console.log("完成！");
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };
