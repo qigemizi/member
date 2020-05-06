@@ -5,6 +5,11 @@ import Login from '../views/Login.vue'
 import Welcome from '../components/Welcome.vue'
 import Register from '../components/Register.vue'
 import HelloWorld from '../components/HelloWorld.vue'
+import MemberDetail from '../views/member/components/MemberDetail.vue'
+import AddMember from '../views/member/AddMember.vue'
+import UpdateMember from '../views/member/UpdateMember.vue'
+
+
 
 Vue.use(VueRouter)
 
@@ -28,6 +33,21 @@ const routes = [
     path: '/helloWorld',
     name: 'HelloWorld',
     component: HelloWorld
+  },
+  {
+    path: '/memberDetail',
+    name: 'MemberDetail',
+    component: MemberDetail
+  },
+  {
+    path: '/addMember',
+    name: 'AddMember',
+    component: AddMember
+  },
+  {
+    path: '/updateMember',
+    name: 'UpdateMember',
+    component: UpdateMember
   },
   {
     path: '/about',

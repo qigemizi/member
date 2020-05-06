@@ -22,7 +22,11 @@
         <p>{{sContent}}</p>
       </el-col>
     </el-row>
-
+    <el-card class="operate-container" shadow="never">
+      <i class="el-icon-tickets"></i>
+      <span>数据列表</span>
+      <el-button class="btn-add" @click="addMember()" size="mini">添加</el-button>
+    </el-card>
     <el-row>
       <el-col :span="24">
         <!-- <div class="table"> -->
@@ -34,7 +38,7 @@
             @selection-change="handleSelectionChange"
           >
             <!-- <el-table :data="tableData" stripe class="table" @selection-change="handleSelectionChange"> -->
-            <el-table-column type="selection" width="55"></el-table-column>
+            <!-- <el-table-column type="selection" width="55"></el-table-column>多选按钮，暂时用不到 -->
             <el-table-column type="index" label="序号"></el-table-column>
             <el-table-column label="图片">
               <template slot-scope="scope">
@@ -42,14 +46,24 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="Id" label="会员ID"></el-table-column>
+            <el-table-column label="会员ID">
+              <template slot-scope="scope">{{scope.row.id}}</template>
+            </el-table-column>
             <!-- <el-table-column prop="name" label="会员姓名"></el-table-column> -->
             <el-table-column label="会员姓名">
               <template slot-scope="scope">{{scope.row.name}}</template>
             </el-table-column>
 
-            <el-table-column prop="data" label="注册日期"></el-table-column>
-            <el-table-column prop="price" label="总消费额"></el-table-column>
+            <el-table-column label="手机号">
+              <template slot-scope="scope">{{scope.row.phone}}</template>
+            </el-table-column>
+
+            <el-table-column label="注册日期">
+              <template slot-scope="scope">{{scope.row.registerData}}</template>
+            </el-table-column>
+            <el-table-column prop="price" label="总消费额">
+              <template slot-scope="scope">{{scope.row.totalConsumption}}</template>
+            </el-table-column>
 
             <el-table-column fixed="right" label="操作" width="100">
               <template slot-scope="scope">
@@ -88,90 +102,7 @@ export default {
   data() {
     return {
       sContent: "欢迎 页面",
-      tableData: [
-        {
-          Id: "000001",
-          data: "2016-05-02",
-          name: "王小虎",
-          price: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          Id: "2016-05-04",
-          name: "王小虎",
-          price: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ],
-
+      tableData: null,
       page: {
         currPageNo: 1, //当前页
         pageSize: 10, //每页条数,  默认10条
@@ -180,11 +111,32 @@ export default {
       } //已完成项目翻页
     };
   },
+  // 用到了生命周期函数，在创建之前写入tableData数据，不然页面是空白
+  beforeCreate() {
+    let success = response => {
+      // alert(response.data.msg);
+      // alert(JSON.stringify(response));
+      console.log(JSON.stringify(response));
+      // if (response.data.code===0)
+      this.tableData = response.data.data;
+    };
+    utils.axiosMethod({
+      headers: {
+        "Content-Type": "application/json;charset=utf-8"
+      },
+      method: "GET",
+      url: "/member/list",
+      callback: success
+    });
+  },
   mounted() {
     this.computePages();
   },
 
   methods: {
+    addMember() {
+      this.$router.push("/addMember");
+    },
     //表格数据列表计算
     computePages() {
       //  let _this=this;

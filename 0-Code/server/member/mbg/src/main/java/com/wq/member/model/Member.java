@@ -15,6 +15,9 @@ public class Member implements Serializable {
     @ApiModelProperty(value = "总消费额")
     private String totalConsumption;
 
+    @ApiModelProperty(value = "手机号")
+    private String phone;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -49,6 +52,14 @@ public class Member implements Serializable {
         this.totalConsumption = totalConsumption;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -59,6 +70,7 @@ public class Member implements Serializable {
         sb.append(", name=").append(name);
         sb.append(", registerData=").append(registerData);
         sb.append(", totalConsumption=").append(totalConsumption);
+        sb.append(", phone=").append(phone);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
