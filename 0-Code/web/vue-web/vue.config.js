@@ -18,7 +18,8 @@ module.exports = {
     noInfo: true,
     overlay: true,
     proxy:{
-      '/user/*':{
+      // '/user/*':{  我说为啥只有/user下面的才生效，被这里坑了
+      '/*':{
         target:'http://localhost:8888/',
         secure:false,
         changeOrigin:true
