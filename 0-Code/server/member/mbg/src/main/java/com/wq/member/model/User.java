@@ -6,11 +6,14 @@ import java.io.Serializable;
 public class User implements Serializable {
     private Integer id;
 
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "账号")
     private String username;
 
     @ApiModelProperty(value = "密码")
     private String password;
+
+    @ApiModelProperty(value = "角色id")
+    private String roleId;
 
     private static final long serialVersionUID = 1L;
 
@@ -38,6 +41,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -47,6 +58,7 @@ public class User implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", username=").append(username);
         sb.append(", password=").append(password);
+        sb.append(", roleId=").append(roleId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

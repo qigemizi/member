@@ -49,9 +49,11 @@ public class LoginController {
     // 还有两个问题没有搞懂
     // 1、这里为啥要是Get请求
     // 2、我写的user/doLogin为啥不生效   好像给密码加了@bean之后，又生效了
+    // 3、好像点击登录按钮之后，也没有走到这里/login，走的还是/doLogin
     @ResponseBody
     @GetMapping("/login")
     public CommonResult login(@RequestBody UserParam userParam, HttpServletRequest request) {
+        // 登录测试账号 sss1 123
         System.out.println("前端页面的点击事件传过来了！login.userParam="+userParam.toString());
         String username = userParam.getUsername();
         String password = userParam.getPassword();

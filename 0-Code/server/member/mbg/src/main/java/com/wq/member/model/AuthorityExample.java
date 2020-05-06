@@ -1,17 +1,16 @@
 package com.wq.member.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class MemberExample {
+public class AuthorityExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public MemberExample() {
+    public AuthorityExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -165,203 +164,73 @@ public class MemberExample {
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNull() {
-            addCriterion("name is null");
+        public Criteria andAuthorityNameIsNull() {
+            addCriterion("authority_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNotNull() {
-            addCriterion("name is not null");
+        public Criteria andAuthorityNameIsNotNull() {
+            addCriterion("authority_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNameEqualTo(String value) {
-            addCriterion("name =", value, "name");
+        public Criteria andAuthorityNameEqualTo(String value) {
+            addCriterion("authority_name =", value, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotEqualTo(String value) {
-            addCriterion("name <>", value, "name");
+        public Criteria andAuthorityNameNotEqualTo(String value) {
+            addCriterion("authority_name <>", value, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThan(String value) {
-            addCriterion("name >", value, "name");
+        public Criteria andAuthorityNameGreaterThan(String value) {
+            addCriterion("authority_name >", value, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThanOrEqualTo(String value) {
-            addCriterion("name >=", value, "name");
+        public Criteria andAuthorityNameGreaterThanOrEqualTo(String value) {
+            addCriterion("authority_name >=", value, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThan(String value) {
-            addCriterion("name <", value, "name");
+        public Criteria andAuthorityNameLessThan(String value) {
+            addCriterion("authority_name <", value, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThanOrEqualTo(String value) {
-            addCriterion("name <=", value, "name");
+        public Criteria andAuthorityNameLessThanOrEqualTo(String value) {
+            addCriterion("authority_name <=", value, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameLike(String value) {
-            addCriterion("name like", value, "name");
+        public Criteria andAuthorityNameLike(String value) {
+            addCriterion("authority_name like", value, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotLike(String value) {
-            addCriterion("name not like", value, "name");
+        public Criteria andAuthorityNameNotLike(String value) {
+            addCriterion("authority_name not like", value, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameIn(List<String> values) {
-            addCriterion("name in", values, "name");
+        public Criteria andAuthorityNameIn(List<String> values) {
+            addCriterion("authority_name in", values, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotIn(List<String> values) {
-            addCriterion("name not in", values, "name");
+        public Criteria andAuthorityNameNotIn(List<String> values) {
+            addCriterion("authority_name not in", values, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameBetween(String value1, String value2) {
-            addCriterion("name between", value1, value2, "name");
+        public Criteria andAuthorityNameBetween(String value1, String value2) {
+            addCriterion("authority_name between", value1, value2, "authorityName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotBetween(String value1, String value2) {
-            addCriterion("name not between", value1, value2, "name");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataIsNull() {
-            addCriterion("register_data is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataIsNotNull() {
-            addCriterion("register_data is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataEqualTo(Date value) {
-            addCriterion("register_data =", value, "registerData");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataNotEqualTo(Date value) {
-            addCriterion("register_data <>", value, "registerData");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataGreaterThan(Date value) {
-            addCriterion("register_data >", value, "registerData");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataGreaterThanOrEqualTo(Date value) {
-            addCriterion("register_data >=", value, "registerData");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataLessThan(Date value) {
-            addCriterion("register_data <", value, "registerData");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataLessThanOrEqualTo(Date value) {
-            addCriterion("register_data <=", value, "registerData");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataIn(List<Date> values) {
-            addCriterion("register_data in", values, "registerData");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataNotIn(List<Date> values) {
-            addCriterion("register_data not in", values, "registerData");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataBetween(Date value1, Date value2) {
-            addCriterion("register_data between", value1, value2, "registerData");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegisterDataNotBetween(Date value1, Date value2) {
-            addCriterion("register_data not between", value1, value2, "registerData");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionIsNull() {
-            addCriterion("total_consumption is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionIsNotNull() {
-            addCriterion("total_consumption is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionEqualTo(String value) {
-            addCriterion("total_consumption =", value, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionNotEqualTo(String value) {
-            addCriterion("total_consumption <>", value, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionGreaterThan(String value) {
-            addCriterion("total_consumption >", value, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionGreaterThanOrEqualTo(String value) {
-            addCriterion("total_consumption >=", value, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionLessThan(String value) {
-            addCriterion("total_consumption <", value, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionLessThanOrEqualTo(String value) {
-            addCriterion("total_consumption <=", value, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionLike(String value) {
-            addCriterion("total_consumption like", value, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionNotLike(String value) {
-            addCriterion("total_consumption not like", value, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionIn(List<String> values) {
-            addCriterion("total_consumption in", values, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionNotIn(List<String> values) {
-            addCriterion("total_consumption not in", values, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionBetween(String value1, String value2) {
-            addCriterion("total_consumption between", value1, value2, "totalConsumption");
-            return (Criteria) this;
-        }
-
-        public Criteria andTotalConsumptionNotBetween(String value1, String value2) {
-            addCriterion("total_consumption not between", value1, value2, "totalConsumption");
+        public Criteria andAuthorityNameNotBetween(String value1, String value2) {
+            addCriterion("authority_name not between", value1, value2, "authorityName");
             return (Criteria) this;
         }
     }
