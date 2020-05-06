@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsServiceImpl;
+    private UserDetailsService userDetailsServiceImpl;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -47,14 +48,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception {
         http
             .cors().and()
-            .csrf().disable()  //
+            .csrf().disable()  // 由于使用的是JWT，我们这里不需要csrf
+            .sessionManagement()// 基于token，所以不需要session
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
             .formLogin()
             .loginPage("/login")
             .and()
             .authorizeRequests()
             // 跨域预检请求
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/login").permitAll()
+            .antMatchers("/**").permitAll()
+            .antMatchers("/login").permitAll()
             .antMatchers("/user/doLogin").permitAll()
             .antMatchers("/user/verifyCode").permitAll()
 

@@ -47,13 +47,13 @@ public class UserController {
     @ResponseBody
     @PostMapping("/doLogin")
     public CommonResult login(@RequestBody UserParam userParam, HttpServletRequest request){
-
+        // 登录测试账号 sss1 123
         System.out.println("前端页面的点击事件传过来了！user/doLogin.userParam="+userParam.toString());
         String username = userParam.getUsername();
         String password = userParam.getPassword();
         
         // 这段类似实现UsernamePasswordAuthenticationFilter的源码，在demo里面就是login方法里的内容
-        // 两种登录方式，一种是/login，一种是loginFilter
+        // 两种登录方式，一种是请求/doLogin，一种是loginFilter
         // 使用jwt的地方在demo里面搜索JwtTokenUtils.generateToken
         // 自定义认证token对象
         JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(username, password);
