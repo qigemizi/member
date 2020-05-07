@@ -1,5 +1,6 @@
 package com.wq.member.service.impl;
 
+import cn.hutool.core.convert.Convert;
 import com.wq.member.mapper.MemberMapper;
 import com.wq.member.model.Member;
 import com.wq.member.model.MemberExample;
@@ -19,5 +20,10 @@ public class MemberServiceImpl implements MemberService {
     public List<Member> list() {
         // 查询所有
         return memberMapper.selectByExample(new MemberExample());
+    }
+
+    @Override
+    public Member getMember(Long id) {
+        return memberMapper.selectByPrimaryKey(Convert.toInt(id));
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <el-card class="form-container" shadow="never">
-    <el-form :model="member" :rules="rules" ref="brandFrom" label-width="150px">
+    <el-form :model="member" ref="brandFrom" label-width="150px">
       <el-form-item label="会员名：" prop="name">
         <el-input v-model="member.name"></el-input>
       </el-form-item>
@@ -23,6 +23,9 @@
 <script>
 //   import {createBrand, getBrand, updateBrand} from '@/api/member'
 //   import SingleUpload from '@/components/Upload/singleUpload'
+import utils from "../../../utils/utils";
+import axios from "axios";
+
 const defaultBrand = {
   name: "",
   phone: ""
@@ -42,23 +45,50 @@ export default {
     return {
       // 日期默认为当天
       value1: new Date(),
-      member: Object.assign({}, defaultBrand),
-
+      member: Object.assign({}, defaultBrand)
     };
   },
+  beforeCreate() {
+    // console.log("isEdit=");
+    // console.log(this.isEdit);
+  },
   created() {
+    console.log("isEdit=");
+    console.log(this.isEdit);
+    console.log(this.$route.query.id);
+
     if (this.isEdit) {
-      getBrand(this.$route.query.id).then(response => {
-        this.member = response.data;
+      let success = response => {
+        // alert(response.data.msg);
+        // alert(JSON.stringify(response));
+        console.log(JSON.stringify(response));
+        // if (response.data.code===0)
+        this.member = response.data.data;
+      };
+      utils.axiosMethod({
+        headers: {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        method: "GET",
+        url: "/member/" + this.$route.query.id,
+        callback: success
       });
     } else {
       this.member = Object.assign({}, defaultBrand);
     }
   },
   methods: {
-      onSubmit(){
-          
-      }
+    onSubmit() {},
+
+    getMember(id) {
+      axios({
+        headers: {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        method: "GET",
+        url: "/member/" + id
+      });
+    }
   }
 };
 </script>

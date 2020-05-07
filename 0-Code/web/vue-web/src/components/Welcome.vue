@@ -67,8 +67,8 @@
 
             <el-table-column fixed="right" label="操作" width="100">
               <template slot-scope="scope">
+                <el-button @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
                 <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -156,9 +156,14 @@ export default {
     },
 
     handleClick(row) {
-      // 编辑按钮
       console.log(row);
     },
+
+    // 编辑按钮
+    handleUpdate(index, row) {
+      this.$router.push({ path: "/updateMember", query: { id: row.id } });
+    },
+
     // 不能使用，使用postman可以，在这里就报404，还是跨域的问题，在跨域配置文件里面改好了
     refresh() {
       let success = response => {
