@@ -4,7 +4,7 @@
 <script>
   import MemberDetail from './components/MemberDetail'
   export default {
-    name: 'addMember',
+    name: 'AddMember',
     components: { MemberDetail }
   }
 </script>
