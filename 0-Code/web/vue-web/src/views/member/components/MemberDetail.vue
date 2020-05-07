@@ -9,8 +9,8 @@
         <el-input v-model="member.phone"></el-input>
       </el-form-item>
 
-      <el-form-item label="注册日期：" prop="date">
-        <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
+      <el-form-item label="注册日期：" prop="registerDate">
+        <el-date-picker v-model="member.registerDate" type="date" placeholder="选择日期"></el-date-picker>
       </el-form-item>
 
       <el-form-item>
@@ -21,20 +21,17 @@
   </el-card>
 </template>
 <script>
-//   import {createBrand, getBrand, updateBrand} from '@/api/member'
-//   import SingleUpload from '@/components/Upload/singleUpload'
+import { getMember, updateMember, createMember } from "@/api/member";
 import utils from "../../../utils/utils";
-import axios from "axios";
 
 const defaultBrand = {
   name: "",
-  phone: ""
+  phone: "",
+  registerDate: ""
 };
 export default {
   name: "MemberDetail",
-  components: {
-    // SingleUpload
-  },
+  components: {},
   props: {
     isEdit: {
       type: Boolean,
@@ -51,6 +48,7 @@ export default {
   beforeCreate() {
     // console.log("isEdit=");
     // console.log(this.isEdit);
+    // 在beforeCreate里this.isEdit都还没有值
   },
   created() {
     console.log("isEdit=");
@@ -58,35 +56,64 @@ export default {
     console.log(this.$route.query.id);
 
     if (this.isEdit) {
-      let success = response => {
-        // alert(response.data.msg);
-        // alert(JSON.stringify(response));
-        console.log(JSON.stringify(response));
-        // if (response.data.code===0)
+      // 这里是因为在created方法里面只能调用外面的，写在自己methods里面的会报未定义错误
+      getMember(this.$route.query.id).then(response => {
         this.member = response.data.data;
-      };
-      utils.axiosMethod({
-        headers: {
-          "Content-Type": "application/json;charset=utf-8"
-        },
-        method: "GET",
-        url: "/member/" + this.$route.query.id,
-        callback: success
       });
+      // // 上面的也OK了，可以请求到数据
+      // // 下面的是OK的，可以请求到数据
+      // let success = response => {
+      //   // alert(response.data.msg);
+      //   // alert(JSON.stringify(response));
+      //   console.log(JSON.stringify(response));
+      //   // if (response.data.code===0)
+      //   this.member = response.data.data;
+      // };
+      // utils.axiosMethod({
+      //   headers: {
+      //     "Content-Type": "application/json;charset=utf-8"
+      //   },
+      //   method: "GET",
+      //   url: "/member/" + this.$route.query.id,
+      //   callback: success
+      // });
     } else {
       this.member = Object.assign({}, defaultBrand);
     }
   },
   methods: {
-    onSubmit() {},
-
-    getMember(id) {
-      axios({
-        headers: {
-          "Content-Type": "application/json;charset=utf-8"
-        },
-        method: "GET",
-        url: "/member/" + id
+    onSubmit() {
+      this.$confirm("是否提交数据", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消"
+        // type: "warning"
+      }).then(() => {
+        if (this.isEdit) {
+          updateMember(this.$route.query.id, this.member).then(response => {
+            this.$refs[formName].resetFields();
+            this.$message({
+              message: "修改成功",
+              type: "success",
+              duration: 1000
+            });
+            this.$router.back();
+          });
+        } else {
+          console.log("this.member=");
+          console.log(JSON.stringify(this.member));
+          // this.member.name = "111";
+          // this.member.phone = "123";
+          // this.member.registerDate = "2020-1-1";
+          createMember(this.member).then(response => {
+            this.$refs[formName].resetFields();
+            this.member = Object.assign({}, defaultBrand);
+            this.$message({
+              message: "添加成功",
+              type: "success",
+              duration: 1000
+            });
+          });
+        }
       });
     }
   }
