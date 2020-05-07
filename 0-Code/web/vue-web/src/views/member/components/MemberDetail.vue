@@ -21,10 +21,8 @@
   </el-card>
 </template>
 <script>
-//   import {createBrand, getBrand, updateBrand} from '@/api/member'
-//   import SingleUpload from '@/components/Upload/singleUpload'
+import { getMember } from "@/api/member";
 import utils from "../../../utils/utils";
-import axios from "axios";
 
 const defaultBrand = {
   name: "",
@@ -32,9 +30,7 @@ const defaultBrand = {
 };
 export default {
   name: "MemberDetail",
-  components: {
-    // SingleUpload
-  },
+  components: {},
   props: {
     isEdit: {
       type: Boolean,
@@ -51,6 +47,7 @@ export default {
   beforeCreate() {
     // console.log("isEdit=");
     // console.log(this.isEdit);
+    // 在beforeCreate里this.isEdit都还没有值
   },
   created() {
     console.log("isEdit=");
@@ -58,37 +55,33 @@ export default {
     console.log(this.$route.query.id);
 
     if (this.isEdit) {
-      let success = response => {
-        // alert(response.data.msg);
-        // alert(JSON.stringify(response));
-        console.log(JSON.stringify(response));
-        // if (response.data.code===0)
+      // 这里是因为在created方法里面只能调用外面的，写在自己methods里面的会报未定义错误
+      getMember(this.$route.query.id).then(response => {
         this.member = response.data.data;
-      };
-      utils.axiosMethod({
-        headers: {
-          "Content-Type": "application/json;charset=utf-8"
-        },
-        method: "GET",
-        url: "/member/" + this.$route.query.id,
-        callback: success
       });
+      // // 上面的也OK了，可以请求到数据
+      // // 下面的是OK的，可以请求到数据
+      // let success = response => {
+      //   // alert(response.data.msg);
+      //   // alert(JSON.stringify(response));
+      //   console.log(JSON.stringify(response));
+      //   // if (response.data.code===0)
+      //   this.member = response.data.data;
+      // };
+      // utils.axiosMethod({
+      //   headers: {
+      //     "Content-Type": "application/json;charset=utf-8"
+      //   },
+      //   method: "GET",
+      //   url: "/member/" + this.$route.query.id,
+      //   callback: success
+      // });
     } else {
       this.member = Object.assign({}, defaultBrand);
     }
   },
   methods: {
-    onSubmit() {},
-
-    getMember(id) {
-      axios({
-        headers: {
-          "Content-Type": "application/json;charset=utf-8"
-        },
-        method: "GET",
-        url: "/member/" + id
-      });
-    }
+    onSubmit() {}
   }
 };
 </script>
