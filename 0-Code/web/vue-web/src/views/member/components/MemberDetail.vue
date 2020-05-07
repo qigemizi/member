@@ -9,8 +9,8 @@
         <el-input v-model="member.phone"></el-input>
       </el-form-item>
 
-      <el-form-item label="注册日期：" prop="date">
-        <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
+      <el-form-item label="注册日期：" prop="registerDate">
+        <el-date-picker v-model="member.registerDate" type="date" placeholder="选择日期"></el-date-picker>
       </el-form-item>
 
       <el-form-item>
@@ -21,12 +21,13 @@
   </el-card>
 </template>
 <script>
-import { getMember } from "@/api/member";
+import { getMember, updateMember, createMember } from "@/api/member";
 import utils from "../../../utils/utils";
 
 const defaultBrand = {
   name: "",
-  phone: ""
+  phone: "",
+  registerDate: ""
 };
 export default {
   name: "MemberDetail",
@@ -81,7 +82,40 @@ export default {
     }
   },
   methods: {
-    onSubmit() {}
+    onSubmit() {
+      this.$confirm("是否提交数据", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消"
+        // type: "warning"
+      }).then(() => {
+        if (this.isEdit) {
+          updateMember(this.$route.query.id, this.member).then(response => {
+            this.$refs[formName].resetFields();
+            this.$message({
+              message: "修改成功",
+              type: "success",
+              duration: 1000
+            });
+            this.$router.back();
+          });
+        } else {
+          console.log("this.member=");
+          console.log(JSON.stringify(this.member));
+          // this.member.name = "111";
+          // this.member.phone = "123";
+          // this.member.registerDate = "2020-1-1";
+          createMember(this.member).then(response => {
+            this.$refs[formName].resetFields();
+            this.member = Object.assign({}, defaultBrand);
+            this.$message({
+              message: "添加成功",
+              type: "success",
+              duration: 1000
+            });
+          });
+        }
+      });
+    }
   }
 };
 </script>
