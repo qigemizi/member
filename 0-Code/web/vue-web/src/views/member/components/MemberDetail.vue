@@ -27,7 +27,7 @@ import utils from "../../../utils/utils";
 const defaultBrand = {
   name: "",
   phone: "",
-  registerDate: ""
+  registerDate: new Date()
 };
 export default {
   name: "MemberDetail",
