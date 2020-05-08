@@ -159,6 +159,34 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    // 显示在地址栏里的
+    path: '/zijiwan',
+    component: Layout,
+    redirect: '/zijiwan',
+    // name没啥用啊？
+    name: 'ZIJIWAN001',
+    // 标题和图标
+    meta: { title: 'ZIJIWAN', icon: 'example' },
+    children: [
+      {
+        path: 'minio',
+        name: 'minio',
+        component: () => import('@/views/minio/minio'),
+        meta: { title: 'minio', icon: 'table' }
+      },
+      {
+        path: 'minio2',
+        name: 'minio2',
+        component: () => import('@/views/minio/minio'),
+        meta: { title: 'minio2', icon: 'table' }
+      }
+  
+    ]
+  },
+
+
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
