@@ -1,9 +1,10 @@
 # member
 会员管理系统
 
-cd .\member\0-Code\web\vue-web\
-
 安装依赖
-cnpm install
+npm install
+
+前端启动
+cd .\member\0-Code\web2
 起服务
-npm run serve
+npm run dev
