@@ -8,6 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * CORS是一个W3C标准，全称是"跨域资源共享"（Cross-origin resource sharing）。
  * 它允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。
  *
+ * https://macrozheng.github.io/mall-learning/#/technology/springboot_cors
+ * 当一个资源去访问另一个不同域名或者同域名不同端口的资源时，就会发出跨域请求。
+ * 一次完整的跨域请求：先发起一次OPTIONS请求进行预检，再发起真实的跨域请求
+ *
  * 今天发现一个问题：
  * 我发出一个请求之后，该请求发现需要登录，就重定向到登录请求
  * 这时会发生跨域的问题
