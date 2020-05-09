@@ -2,12 +2,6 @@
   <div>
     <el-row>
       <el-col :span="24">
-        <el-button type="primary" @click="refresh">刷新</el-button>
-      </el-col>
-    </el-row>
-
-    <el-row>
-      <el-col :span="24">
         <h2>Index</h2>
       </el-col>
     </el-row>
@@ -91,6 +85,19 @@
         </div>
       </el-col>
     </el-row>
+
+    <el-dialog title="会员消费详情" :visible.sync="dialogTableVisible">
+      <el-row>
+        <el-col :span="24">
+          <el-button type="primary" @click="handleClick">刷新</el-button>
+        </el-col>
+      </el-row>
+      <el-table :data="gridData">
+        <el-table-column property="memberId" label="姓名" width="200"></el-table-column>
+        <el-table-column property="consumptionDate" label="日期" width="150"></el-table-column>
+        <el-table-column property="consumptionQuota" label="花费额度"></el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -108,7 +115,10 @@ export default {
         pageSize: 10, //每页条数,  默认10条
         totalRecords: null, //总条数
         totalPages: null //总页数
-      } //已完成项目翻页
+      }, //已完成项目翻页
+
+      gridData: null,
+      dialogTableVisible: false
     };
   },
   // 用到了生命周期函数，在创建之前写入tableData数据，不然页面是空白
@@ -157,7 +167,19 @@ export default {
 
     // 查看按钮
     handleClick(row) {
-      console.log(row);
+      console.log(row); // 把id传给后端
+      axios({
+        method: "GET",
+        url: "/consumption/" + row.id
+      })
+        .then(response => {
+          this.gridData = response.data.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      this.dialogTableVisible = "true";
     },
 
     // 编辑按钮
