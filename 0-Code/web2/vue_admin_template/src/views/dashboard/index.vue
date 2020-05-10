@@ -59,10 +59,11 @@
               <template slot-scope="scope">{{scope.row.totalConsumption}}</template>
             </el-table-column>
 
-            <el-table-column fixed="right" label="操作" width="100">
+            <el-table-column fixed="right" label="操作" width="200">
               <template slot-scope="scope">
                 <el-button @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
                 <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                <el-button @click="consumptionQuota(scope.row)">本次消费额度</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -97,6 +98,22 @@
         <el-table-column property="consumptionDate" label="日期" width="150"></el-table-column>
         <el-table-column property="consumptionQuota" label="花费额度"></el-table-column>
       </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogTableVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="本次消费额度" :visible.sync="dialogFormVisible">
+      <el-form :model="quota">
+        <el-form-item label="本次消费额度" :label-width="formLabelWidth">
+          <el-input v-model="quota.quota" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleConfirm">确 定</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -117,8 +134,14 @@ export default {
         totalPages: null //总页数
       }, //已完成项目翻页
 
+      // 弹出框里面显示的内容
       gridData: null,
-      dialogTableVisible: false
+      dialogTableVisible: false,
+      dialogFormVisible: false,
+      quota: {
+        quota: ""
+      },
+      formLabelWidth: "120px"
     };
   },
   // 用到了生命周期函数，在创建之前写入tableData数据，不然页面是空白
@@ -163,6 +186,17 @@ export default {
     currentChange(val) {
       this.page.currPageNo = val;
       this.computePages();
+    },
+    // 点击本次消费额度
+    consumptionQuota(row) {
+      this.dialogFormVisible = "true";
+    },
+    handleConfirm(done) {
+      this.$confirm("确认？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     },
 
     // 查看按钮
