@@ -23,8 +23,8 @@ spring:
       additional-exclude: WEB-INF/**
 
 mybatis:
-  mapper-locations: classpath:mapping/*Mapper.xml
-  type-aliases-package: com.eroad.nifimanagement.domain
+  mapper-locations: classpath:mapper/*Mapper.xml,classpath:mapper/*Dao.xml #不加上的话，会导致mapper下的xml读取不到。报错：Invalid bound statement (not found)
+
 
 
 #日志路径

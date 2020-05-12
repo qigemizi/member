@@ -1,7 +1,9 @@
 package com.wq.member.service;
 
+import com.wq.member.model.Permission;
 import com.wq.member.model.User;
 
+import java.util.List;
 import java.util.Set;
 
 public interface UserService {
@@ -14,5 +16,5 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    Set<String> findPermissions(String username);
+    List<Permission> findPermissions(Long id);
 }

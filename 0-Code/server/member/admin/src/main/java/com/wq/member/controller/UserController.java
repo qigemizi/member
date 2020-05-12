@@ -19,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,10 +43,12 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
     private AuthenticationManager authenticationManager;
 
 
-
+    // 其实第一次登录是返回token，后面对接口的访问是验证token
     @ResponseBody
     @PostMapping("/doLogin")
     public CommonResult login(@RequestBody UserParam userParam, HttpServletRequest request){
@@ -51,26 +56,22 @@ public class UserController {
         System.out.println("前端页面的点击事件传过来了！user/doLogin.userParam="+userParam.toString());
         String username = userParam.getUsername();
         String password = userParam.getPassword();
-        
-        // 这段类似实现UsernamePasswordAuthenticationFilter的源码，在demo里面就是login方法里的内容
-        // 两种登录方式，一种是请求/doLogin，一种是loginFilter
-        // 使用jwt的地方在demo里面搜索JwtTokenUtils.generateToken
-        // 自定义认证token对象
-        JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(username, password);
-        jwtAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        // 执行登录认证过程
-        Authentication authentication = authenticationManager.authenticate(jwtAuthenticationToken);
-        // 认证成功存储认证信息到上下文
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String verifyCode =  userParam.getVerifyCode();
+        // TODO 验证码是否正确
 
-        String token = JwtTokenUtils.generateToken(authentication);
-        System.out.println("token="+token);
-        // 生成令牌并返回给客户端
-        jwtAuthenticationToken.setToken(token);
+        // TODO 账号密码是否正确
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("该用户不存在");
+        }
+        // 也可以使用它来判断账号密码是否正确
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        return CommonResult.success(token);
-        // 系统登录认证
-        // JwtAuthenticatioToken token = SecurityUtils.login(request, username, password, authenticationManager);
+        // TODO 为账号生成token
+        String token = null;
+
+        return CommonResult.success("tokenMap");
+
 
     }
 
