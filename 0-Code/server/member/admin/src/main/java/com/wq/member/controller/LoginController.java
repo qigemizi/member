@@ -30,7 +30,7 @@ public class LoginController {
 //        return CommonResult.failed(ResultCode.FAILED, "尚未登录，请登录!");
 //    }
 
-    @GetMapping("/verifyCode")
+    @GetMapping("/verifyCode1")
     public void verifyCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         VerifyCodeUtil code = new VerifyCodeUtil();
         System.out.println("code="+code);
@@ -49,14 +49,17 @@ public class LoginController {
     // 还有两个问题没有搞懂
     // 1、这里为啥要是Get请求
     // 2、我写的user/doLogin为啥不生效   好像给密码加了@bean之后，又生效了
-    // 3、好像点击登录按钮之后，也没有走到这里/login，走的还是/doLogin
+    // 3、好像点击登录按钮之后，也没有走到这里的/login，走的还是/doLogin
     @ResponseBody
-    @GetMapping("/login")
+    @GetMapping("/login1")
     public CommonResult login(@RequestBody UserParam userParam, HttpServletRequest request) {
         // 登录测试账号 sss1 123
         System.out.println("前端页面的点击事件传过来了！login.userParam="+userParam.toString());
         String username = userParam.getUsername();
         String password = userParam.getPassword();
+        // 这段类似实现UsernamePasswordAuthenticationFilter的源码，在demo里面就是login方法里的内容
+        // 两种登录方式，一种是请求/doLogin，一种是loginFilter
+        // 使用jwt的地方在demo里面搜索JwtTokenUtils.generateToken
         // 自定义认证token对象
         JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(username, password);
         jwtAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
