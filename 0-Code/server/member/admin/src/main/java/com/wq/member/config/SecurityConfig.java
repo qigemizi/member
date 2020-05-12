@@ -82,6 +82,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
             .anyRequest()// 除上面外的所有请求全部需要鉴权认证
             .authenticated();
+
+        // 可以有两种登录方式，一种是请求/doLogin，一种是loginFilter
+
+
         // 禁用缓存
         http.headers().cacheControl();
         // 登录后对所请求的接口进行token验证
