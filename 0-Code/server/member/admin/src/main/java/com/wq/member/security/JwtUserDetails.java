@@ -1,4 +1,4 @@
-package com.wq.member.dao;
+package com.wq.member.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

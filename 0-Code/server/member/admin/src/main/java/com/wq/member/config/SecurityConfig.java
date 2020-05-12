@@ -1,7 +1,8 @@
 package com.wq.member.config;
 
 import com.wq.member.security.JwtAuthenticationTokenFilter;
-import com.wq.member.security.UserDetailsServiceImpl;
+import com.wq.member.security.RestAuthenticationEntryPoint;
+import com.wq.member.security.RestfulAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
