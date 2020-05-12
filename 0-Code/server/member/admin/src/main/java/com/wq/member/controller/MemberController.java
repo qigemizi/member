@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,7 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/list")
+    @PreAuthorize("hasAuthority('member:list:read')")
     public CommonResult memberList(){
         System.out.println("进入memberList方法了");
         List<Member> memberList = memberService.list();

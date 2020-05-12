@@ -4,12 +4,8 @@ package com.wq.member.controller;
 import com.wq.member.common.api.CommonResult;
 import com.wq.member.dto.UserParam;
 import com.wq.member.model.User;
-import com.wq.member.security.JwtAuthenticationToken;
 import com.wq.member.service.UserService;
-import com.wq.member.util.FileNameUtil;
-import com.wq.member.util.JwtTokenUtils;
-import com.wq.member.util.MinioUtil;
-import com.wq.member.util.VerifyCodeUtil;
+import com.wq.member.util.*;
 import io.minio.MinioClient;
 import io.minio.Result;
 import io.minio.messages.Item;
@@ -17,12 +13,11 @@ import io.swagger.annotations.Api;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,18 +54,26 @@ public class UserController {
         String verifyCode =  userParam.getVerifyCode();
         // TODO 验证码是否正确
 
-        // TODO 账号密码是否正确
+        // TODO 账号是否存在
         User user = userService.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("该用户不存在");
         }
-        // 也可以使用它来判断账号密码是否正确
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        // TODO 密码是否正确
 
+        // TODO 账号密码都正确，查他的权限
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        // 根据用户详情（包含用户的账号，密码，权限)生成token
         // TODO 为账号生成token
         String token = null;
-
-        return CommonResult.success("tokenMap");
+        // 认证
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication); // 国际惯例  // 认证成功，存储认证信息到上下文
+        token = JwtTokenUtil.generateToken(userDetails);
+        Map<String, String> tokenMap = new HashMap<>();
+        tokenMap.put("token", token);
+        tokenMap.put("tokenHead", "Bearer");
+        return CommonResult.success(tokenMap);
 
 
     }
