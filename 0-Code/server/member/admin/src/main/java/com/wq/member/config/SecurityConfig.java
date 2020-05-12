@@ -1,6 +1,8 @@
 package com.wq.member.config;
 
-import com.wq.member.security.UserDetailsServiceImpl;
+import com.wq.member.security.JwtAuthenticationTokenFilter;
+import com.wq.member.security.RestAuthenticationEntryPoint;
+import com.wq.member.security.RestfulAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -34,6 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
+    }
+    // 登录后对所请求的接口进行token验证
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
+        return new JwtAuthenticationTokenFilter();
     }
 
     @Override
@@ -74,8 +82,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
             .anyRequest()// 除上面外的所有请求全部需要鉴权认证
             .authenticated();
+        // 禁用缓存
+        http.headers().cacheControl();
+        // 登录后对所请求的接口进行token验证
+        http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        //添加自定义未授权和未登录结果返回
+        // 添加自定义未授权和未登录结果返回
         // http.exceptionHandling()
                     // 403 未授权
         //         .accessDeniedHandler(restfulAccessDeniedHandler)

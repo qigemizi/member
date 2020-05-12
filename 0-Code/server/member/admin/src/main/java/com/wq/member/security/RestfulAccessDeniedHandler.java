@@ -1,4 +1,4 @@
-package com.wq.member.config;
+package com.wq.member.security;
 
 import cn.hutool.json.JSONUtil;
 import com.wq.member.common.api.CommonResult;

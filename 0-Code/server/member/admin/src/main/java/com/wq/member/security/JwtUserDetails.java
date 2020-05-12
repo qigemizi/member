@@ -1,10 +1,13 @@
-package com.wq.member.dao;
+package com.wq.member.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+/**
+ * 自定义用户详情
+ */
 public class JwtUserDetails implements UserDetails {
 
     private String username;
