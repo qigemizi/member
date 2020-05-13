@@ -75,13 +75,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             // 不设置的话，会一直请求这个请求
             // .antMatchers("/login1").permitAll()
             // 对登录允许匿名访问
-            .antMatchers("/user/doLogin").permitAll()
+            // .antMatchers("/user/doLogin").permitAll()
             .antMatchers("/user/verifyCode").permitAll()
             // 经过反复试验，这样 /user/register 就可以不受认证
             // .antMatchers("/user/register").permitAll()
 
             .anyRequest()// 除上面外的所有请求全部需要鉴权认证
             .authenticated();
+
+        // 可以有两种登录方式，一种是请求/doLogin，一种是loginFilter
+
+
         // 禁用缓存
         http.headers().cacheControl();
         // 登录后对所请求的接口进行token验证
@@ -99,8 +103,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     // web相关的静态东西
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**","/js/**","/index.html","/img/**","/fonts/**","/favicon.ico","/verifyCode","/swagger-ui.html");
+        web.ignoring().antMatchers(
+                "/css/**",
+                "/js/**",
+                "/index.html",
+                "/img/**",
+                "/fonts/**",
+                "/favicon.ico",
+                "/verifyCode",
+                "/user/doLogin",
+                "/swagger-resources/**",
+                "/swagger-ui.html",
+                "/v2/api-docs",
+                "/webjars/**"
+                );
     }
+    // swagger ui相关
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
 
     
 }

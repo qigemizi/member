@@ -1,10 +1,7 @@
 package com.wq.member.controller;
 
 import com.wq.member.common.api.CommonResult;
-import com.wq.member.common.api.ResultCode;
 import com.wq.member.dto.UserParam;
-import com.wq.member.security.JwtAuthenticationToken;
-import com.wq.member.util.JwtTokenUtils;
 import com.wq.member.util.VerifyCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,7 +44,7 @@ public class LoginController {
     }
 
     // 还有两个问题没有搞懂
-    // 1、这里为啥要是Get请求
+    // 1、这里为啥要是Get请求，好像是浏览器要求
     // 2、我写的user/doLogin为啥不生效   好像给密码加了@bean之后，又生效了
     // 3、好像点击登录按钮之后，也没有走到这里的/login，走的还是/doLogin
     @ResponseBody
@@ -60,20 +57,21 @@ public class LoginController {
         // 这段类似实现UsernamePasswordAuthenticationFilter的源码，在demo里面就是login方法里的内容
         // 两种登录方式，一种是请求/doLogin，一种是loginFilter
         // 使用jwt的地方在demo里面搜索JwtTokenUtils.generateToken
+
         // 自定义认证token对象
-        JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(username, password);
-        jwtAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        // 执行登录认证过程
-        Authentication authentication = authenticationManager.authenticate(jwtAuthenticationToken);
-        // 认证成功存储认证信息到上下文
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        // JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(username, password);
+        // jwtAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        // // 执行登录认证过程
+        // Authentication authentication = authenticationManager.authenticate(jwtAuthenticationToken);
+        // // 认证成功存储认证信息到上下文
+        // SecurityContextHolder.getContext().setAuthentication(authentication);
+        //
+        // String token = JwtTokenUtils.generateToken(authentication);
+        // System.out.println("token="+token);
+        // // 生成令牌并返回给客户端
+        // jwtAuthenticationToken.setToken(token);
 
-        String token = JwtTokenUtils.generateToken(authentication);
-        System.out.println("token="+token);
-        // 生成令牌并返回给客户端
-        jwtAuthenticationToken.setToken(token);
-
-        return CommonResult.success(token);
+        return CommonResult.success("token");
 
     }
 }
