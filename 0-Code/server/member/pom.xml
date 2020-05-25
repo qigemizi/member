@@ -195,8 +195,25 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 , 感觉没啥用-->
+                    <mainClass>com.wq.member.MemberAdminApplication</mainClass>
+                    <!-- 好像可以解决模块之间依赖的问题：Error:(5,32) java: 程序包com.wq.member.common.api不存在 -->
+                    <!-- 生成的execute包，可以解决docker run时 no main manifest attribute, in /admin.jar的问题-->
+                    <classifier>execute</classifier>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <!--可以把依赖的包都打包到生成的Jar包中-->
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
+
 
 </project>
