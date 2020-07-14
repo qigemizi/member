@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wq.member.mapper.RoleMapper">
-  <resultMap id="BaseResultMap" type="com.wq.member.model.Role">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="user_count" jdbcType="VARCHAR" property="userCount" />
+<mapper namespace="com.wq.member.mapper.ResourceCategoryMapper">
+  <resultMap id="BaseResultMap" type="com.wq.member.model.ResourceCategory">
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, description, user_count, create_time, status, sort
+    id, create_time, name, sort
   </sql>
-  <select id="selectByExample" parameterType="com.wq.member.model.RoleExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.wq.member.model.ResourceCategoryExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from role
+    from resource_category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,105 +82,76 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from role
-    where id = #{id,jdbcType=INTEGER}
+    from resource_category
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from role
-    where id = #{id,jdbcType=INTEGER}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from resource_category
+    where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.wq.member.model.RoleExample">
-    delete from role
+  <delete id="deleteByExample" parameterType="com.wq.member.model.ResourceCategoryExample">
+    delete from resource_category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.wq.member.model.Role">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+  <insert id="insert" parameterType="com.wq.member.model.ResourceCategory">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into role (name, description, user_count, 
-      create_time, status, sort
+    insert into resource_category (create_time, name, sort
       )
-    values (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{userCount,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}
+    values (#{createTime,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.wq.member.model.Role">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+  <insert id="insertSelective" parameterType="com.wq.member.model.ResourceCategory">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into role
+    insert into resource_category
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="userCount != null">
-        user_count,
-      </if>
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="status != null">
-        status,
+      <if test="name != null">
+        name,
       </if>
       <if test="sort != null">
         sort,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="userCount != null">
-        #{userCount,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="sort != null">
         #{sort,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.wq.member.model.RoleExample" resultType="java.lang.Long">
-    select count(*) from role
+  <select id="countByExample" parameterType="com.wq.member.model.ResourceCategoryExample" resultType="java.lang.Long">
+    select count(*) from resource_category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update role
+    update resource_category
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
-      </if>
-      <if test="record.userCount != null">
-        user_count = #{record.userCount,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.sort != null">
         sort = #{record.sort,jdbcType=INTEGER},
@@ -194,50 +162,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update role
-    set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
-      user_count = #{record.userCount,jdbcType=VARCHAR},
+    update resource_category
+    set id = #{record.id,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       sort = #{record.sort,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wq.member.model.Role">
-    update role
+  <update id="updateByPrimaryKeySelective" parameterType="com.wq.member.model.ResourceCategory">
+    update resource_category
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="userCount != null">
-        user_count = #{userCount,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="status != null">
-        status = #{status,jdbcType=VARCHAR},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="sort != null">
         sort = #{sort,jdbcType=INTEGER},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wq.member.model.Role">
-    update role
-    set name = #{name,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      user_count = #{userCount,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.wq.member.model.ResourceCategory">
+    update resource_category
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

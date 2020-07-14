@@ -2,6 +2,7 @@ package com.wq.member.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.util.Date;
 
 public class User implements Serializable {
     private Integer id;
@@ -14,6 +15,24 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "角色id")
     private String roleId;
+
+    @ApiModelProperty(value = "头像")
+    private String icon;
+
+    @ApiModelProperty(value = "邮箱")
+    private String email;
+
+    @ApiModelProperty(value = "手机")
+    private String phone;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
+
+    @ApiModelProperty(value = "登录时间")
+    private Date loginTime;
+
+    @ApiModelProperty(value = "状态")
+    private Short status;
 
     private static final long serialVersionUID = 1L;
 
@@ -49,6 +68,54 @@ public class User implements Serializable {
         this.roleId = roleId;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    public Short getStatus() {
+        return status;
+    }
+
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -59,6 +126,12 @@ public class User implements Serializable {
         sb.append(", username=").append(username);
         sb.append(", password=").append(password);
         sb.append(", roleId=").append(roleId);
+        sb.append(", icon=").append(icon);
+        sb.append(", email=").append(email);
+        sb.append(", phone=").append(phone);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", loginTime=").append(loginTime);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
