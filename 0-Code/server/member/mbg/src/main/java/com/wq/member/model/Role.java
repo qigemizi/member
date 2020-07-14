@@ -22,6 +22,9 @@ public class Role implements Serializable {
     @ApiModelProperty(value = "状态")
     private String status;
 
+    @ApiModelProperty(value = "排序")
+    private Integer sort;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -72,6 +75,14 @@ public class Role implements Serializable {
         this.status = status;
     }
 
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -84,6 +95,7 @@ public class Role implements Serializable {
         sb.append(", userCount=").append(userCount);
         sb.append(", createTime=").append(createTime);
         sb.append(", status=").append(status);
+        sb.append(", sort=").append(sort);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

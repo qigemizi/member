@@ -54,17 +54,10 @@ public class UserController {
         String verifyCode =  userParam.getVerifyCode();
         // TODO 验证码是否正确
 
-        // TODO 账号是否存在
-        User user = userService.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("该用户不存在");
-        }
-        // TODO 密码是否正确
-
-        // TODO 账号密码都正确，查他的权限
+        // TODO loadUserByUsername就是看账号密码是否正确，以及取出他的权限
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         // 根据用户详情（包含用户的账号，密码，权限)生成token
-        // TODO 为账号生成token
+        // TODO 下面是为账号生成token
         String token = null;
         // 认证
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -242,6 +235,13 @@ public class UserController {
         HttpSession session = request.getSession(true);
         session.setAttribute("verify_code", text);
         VerifyCodeUtil.output(image, response.getOutputStream());
+    }
+
+    @ResponseBody
+    @PostMapping("/logout")
+    public CommonResult<?> logout(){
+        System.out.println("要退出，OK");
+        return CommonResult.success("OK");
     }
 
 }
