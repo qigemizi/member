@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Autowired
     private UserDetailsService userDetailsServiceImpl;
 
-    // 请求/doLogin时用到的
+    // 请求/doLogin时用到的，来自坑爹的很多demo里面
     @Bean
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
@@ -47,7 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 使用自定义登录身份认证组件
-//        auth.authenticationProvider(new JwtAuthenticationProvider(userDetailsService));
         auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(bCryptPasswordEncoder());
     }
     // 加密方式
@@ -59,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .cors().and()
+            .cors().and()// 允许跨域访问
             .csrf().disable()  // 由于使用的是JWT，我们这里不需要csrf
             .sessionManagement()// 基于token，所以不需要session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -75,7 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             // 不设置的话，会一直请求这个请求
             // .antMatchers("/login1").permitAll()
             // 对登录允许匿名访问
-            // .antMatchers("/user/doLogin").permitAll()
+            .antMatchers("/user/doLogin").permitAll()
+            .antMatchers("/user/logout").permitAll()
             .antMatchers("/user/verifyCode").permitAll()
             // 经过反复试验，这样 /user/register 就可以不受认证
             // .antMatchers("/user/register").permitAll()
