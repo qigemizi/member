@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
+        // TODO 账号是否存在
+        // if (user == null) {
+        //     throw new UsernameNotFoundException("该用户不存在");
+        // }
+        // TODO 密码是否正确
          return userMapper.selectByPrimaryKey(1);
     }
 
