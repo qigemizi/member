@@ -24,7 +24,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: 'http://localhost:9528/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
@@ -37,16 +37,17 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy:{
+    proxy: {
       // '/user/*':{  我说为啥只有/user下面的才生效，被这里坑了
-      '/*':{
+      '/*': {
         // 后端端口
-        target:'http://localhost:8888/',
-        secure:false,
-        changeOrigin:true
+        target: 'http://localhost:8888/',
+        secure: false,
+        changeOrigin: true,
+        ws: false // proxy websockets 解决：控制台反复打印“WebSocket connection to ‘ws:
       }
     },
-    before: require('./mock/mock-server.js')
+    // before: require('./mock/mock-server.js') 被mock这玩意坑惨了
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

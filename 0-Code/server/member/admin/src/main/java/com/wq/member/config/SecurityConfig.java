@@ -25,10 +25,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-    @Autowired
-    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
-    @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    // @Autowired
+    // private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+    // @Autowired
+    // private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     @Autowired
     private UserDetailsService userDetailsServiceImpl;
 
@@ -126,5 +126,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             "/webjars/**"
     };
 
-    
+
 }

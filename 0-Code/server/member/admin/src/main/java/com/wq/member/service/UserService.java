@@ -1,6 +1,7 @@
 package com.wq.member.service;
 
 import com.wq.member.model.Permission;
+import com.wq.member.model.Resource;
 import com.wq.member.model.User;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface UserService {
     User findByUsername(String username);
 
     List<Permission> findPermissions(Long id);
+
+    List<Resource> findResource(Long userId);
 }
