@@ -3,7 +3,6 @@
     <el-form
       ref="loginForm"
       :model="loginForm"
-      :rules="loginRules"
       class="login-form"
       auto-complete="on"
       label-position="left"
@@ -47,7 +46,7 @@
         </span>
       </el-form-item>
 
-      <el-form-item >
+      <el-form-item>
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -63,15 +62,14 @@
         <span class="picture-verifycode">
           <img :src="vcUrl" @click="updateVerifyCode" alt="验证码" />
         </span>
-        
       </el-form-item>
 
       <el-button
         :loading="loading"
         type="primary"
         style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handleLogin"
-      >Login</el-button>
+        @click="doLogin3"
+      >登录</el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
@@ -83,6 +81,9 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
+import utils from "@/utils/utils";
+import axios from "axios";
+import Cookies from 'js-cookie'
 
 export default {
   name: "Login",
@@ -103,16 +104,16 @@ export default {
     };
     return {
       loginForm: {
-        username: "admin",
-        password: "111111",
+        username: "sss1",
+        password: "123",
         verifyCode: ""
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername }
+          { required: false, trigger: "blur", validator: validateUsername }
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword }
+          { required: false, trigger: "blur", validator: validatePassword }
         ]
       },
       loading: false,
@@ -142,23 +143,97 @@ export default {
       });
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true;
-          this.$store
-            .dispatch("user/login", this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
-              this.loading = false;
-            })
-            .catch(() => {
-              this.loading = false;
-            });
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
+      const that = this;
+      axios({
+        method: 'POST',
+        url: '/user/doLogin',
+        data: this.loginForm
+      }).then(function(res) {
+        console.log("123")
+        const data = res.data.data;
+        console.log(data)
+        const token = data.token;
+        const tokenHead = data.tokenHead;
+        console.log(tokenHead+token);
+        Cookies.set('Token', tokenHead+token,15); //登录成功后将token存储在cookie之中
+        // 往vuex里存token
+        this.$store.commit("SET_TOKEN", tokenHead+token);
+        commit('SET_TOKEN', tokenHead+token);
+        that.$router.push("/");
+      }).catch((error) => {
+        console.log(error)
       });
+
+      // this.$store.dispatch('user/Login', this.loginForm).then(() => {
+      //   console.log("123")
+      //   this.$router.push("/");
+      //   this.loading = false;
+      // }).catch(() => {
+      //   this.loading = false;
+      // })
+
+
+      // this.$refs.loginForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true;
+      //     this.$store
+      //       .dispatch("user/login", this.loginForm)
+      //       .then(() => {
+      //         this.$router.push({ path: this.redirect || "/" });
+      //         this.loading = false;
+      //       })
+      //       .catch(() => {
+      //         this.loading = false;
+      //       });
+      //   } else {
+      //     console.log("error submit!!");
+      //     return false;
+      //   }
+      // });
+    },
+    doLogin3() {
+      this.loading = true;
+      this.$store.dispatch('user/Login', this.loginForm).then(() => {
+        console.log("123");
+        this.loading = false;
+        this.$router.push("/");
+      }).catch(() => {
+        this.loading = false;
+      })
+    },
+    doLogin2() {
+      console.log(JSON.stringify(this.loginForm));
+
+      let success = response => {
+        // alert(response.data.msg);
+        // alert(JSON.stringify(response));
+        console.log(JSON.stringify(response));
+        // if (response.data.code===0){
+        this.$router.push( "/" );
+
+        // }
+      };
+      utils.axiosMethod({
+        headers: {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        method: "POST",
+        url: "/user/doLogin",
+        data: this.loginForm,
+        callback: success
+      });
+    },
+    doLogin() {
+      console.log(JSON.stringify(this.loginForm));
+      axios({
+        method: "POST",
+        url: "/user/doLogin",
+        data: this.loginForm,
+      })
+        .then(function(res) {})
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
@@ -251,7 +326,7 @@ $light_gray: #eee;
     display: inline-block;
   }
   .picture-verifycode {
-   vertical-align: middle;
+    vertical-align: middle;
     background-color: #fff;
   }
 

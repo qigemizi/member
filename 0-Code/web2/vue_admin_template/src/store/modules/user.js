@@ -29,16 +29,21 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
+  Login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
+        console.log("Login then了");
+        const data = response.data;
+        const tokenStr = data.tokenHead+data.token
+        setToken(tokenStr); //登录成功后将token存储在cookie之中
+        commit('SET_TOKEN', tokenStr);
+        resolve();
+
       }).catch(error => {
-        reject(error)
+        console.log("Login catch了");
+        console.log(error);
+        reject(error);
       })
     })
   },

@@ -121,6 +121,7 @@
 <script>
 import utils from "@/utils/utils";
 import axios from "axios";
+import { getToken } from '@/utils/auth'
 
 export default {
   data() {
@@ -155,7 +156,8 @@ export default {
     };
     utils.axiosMethod({
       headers: {
-        "Content-Type": "application/json;charset=utf-8"
+        "Content-Type": "application/json;charset=utf-8",
+        Authorization: getToken()
       },
       method: "GET",
       url: "/member/list",
