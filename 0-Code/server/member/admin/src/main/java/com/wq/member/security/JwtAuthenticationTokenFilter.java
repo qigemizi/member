@@ -36,6 +36,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
         String authHeader = request.getHeader(this.tokenHeader);
+        LOGGER.info("authHeader:{}", authHeader);
         if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
             // 去掉Bearer的字符部分，还带有空格
             String authToken = authHeader.substring(this.tokenHead.length());// The part after "Bearer"

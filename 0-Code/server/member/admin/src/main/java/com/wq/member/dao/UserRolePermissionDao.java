@@ -2,6 +2,7 @@ package com.wq.member.dao;
 
 
 import com.wq.member.model.Permission;
+import com.wq.member.model.Resource;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,4 +17,9 @@ public interface UserRolePermissionDao {
      * 根据用户id查询他有什么权限
      */
     List<Permission> getPermissionList(@Param("Id") Long Id);
+
+    /**
+     * 根据用户id查询他有什么权限
+     */
+    List<Resource> getResourceList(@Param("userId") Long userId);
 }

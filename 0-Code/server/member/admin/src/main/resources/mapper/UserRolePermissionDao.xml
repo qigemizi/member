@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wq.member.dao.UserRolePermissionDao">
-    <select id="getPermissionList" resultMap="com.wq.member.mapper.PermissionMapper.BaseResultMap">
+<!--    <select id="getPermissionList" resultMap="com.wq.member.mapper.PermissionMapper.BaseResultMap">-->
+<!--        SELECT-->
+<!--            p.*-->
+<!--        FROM-->
+<!--            user_role_relation ur-->
+<!--            LEFT JOIN role r ON ur.role_id = r.id-->
+<!--            LEFT JOIN role_permission_relation rp ON r.id = rp.role_id-->
+<!--            LEFT JOIN permission p ON rp.permission_id = p.id-->
+<!--        WHERE-->
+<!--            ur.user_id = #{Id}-->
+<!--    </select>-->
+
+<!--    已有userId，通过userId在user_role_relation取到role_id，通过role_resource_relation取到resource_id，从而得到详细的resource权限-->
+    <select id="getResourceList" resultType="com.wq.member.model.Resource">
         SELECT
-            p.*
+        ur.id id,
+        ur.create_time createTime,
+        ur.`name` `name`,
+        ur.url url,
+        ur.description description,
+        ur.category_id categoryId
         FROM
-            user_role_relation ur
-            LEFT JOIN role r ON ur.role_id = r.id
-            LEFT JOIN role_permission_relation rp ON r.id = rp.role_id
-            LEFT JOIN permission p ON rp.permission_id = p.id
+        user_role_relation ar
+        LEFT JOIN role r ON ar.role_id = r.id
+        LEFT JOIN role_resource_relation rrr ON r.id = rrr.role_id
+        LEFT JOIN resource ur ON ur.id = rrr.resource_id
         WHERE
-            ur.user_id = #{Id}
+        ar.user_id = #{userId}
+        AND ur.id IS NOT NULL
+        GROUP BY
+        ur.id
     </select>
 </mapper>

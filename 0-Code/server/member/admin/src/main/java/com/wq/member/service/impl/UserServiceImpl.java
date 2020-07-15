@@ -3,6 +3,7 @@ package com.wq.member.service.impl;
 import com.wq.member.dao.UserRolePermissionDao;
 import com.wq.member.mapper.UserMapper;
 import com.wq.member.model.Permission;
+import com.wq.member.model.Resource;
 import com.wq.member.model.User;
 import com.wq.member.model.UserExample;
 import com.wq.member.service.UserService;
@@ -54,5 +55,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Permission> findPermissions(Long id) {
         return UserRolePermissionDao.getPermissionList(id);
+    }
+
+    @Override
+    public List<Resource> findResource(Long userId) {
+        return UserRolePermissionDao.getResourceList(userId);
     }
 }

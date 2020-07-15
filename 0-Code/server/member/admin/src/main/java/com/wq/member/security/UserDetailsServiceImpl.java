@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import cn.hutool.core.convert.Convert;
 import com.wq.member.model.Permission;
+import com.wq.member.model.Resource;
 import com.wq.member.model.User;
 import com.wq.member.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("该用户不存在");
         }
         // 用户权限列表，根据用户拥有的权限标识与如 @PreAuthorize("hasAuthority('sys:menu:view')") 标注的接口对比，决定是否可以调用接口
-        List<Permission> permissions = userService.findPermissions(Convert.toLong(user.getId()));
-        List<GrantedAuthority> grantedAuthorities =
-                permissions.stream().filter(permission -> permission.getValue()!=null).map(permission -> new SimpleGrantedAuthority(permission.getValue())) //getValue()=member:list:read
+        // List<Permission> permissions = userService.findPermissions(Convert.toLong(user.getId()));
+        // List<GrantedAuthority> grantedAuthorities =
+        //         permissions.stream().filter(permission -> permission.getValue()!=null).map(permission -> new SimpleGrantedAuthority(permission.getValue())) //getValue()=member:list:read
+        //         .collect(Collectors.toList());
+        List<Resource> resourceList = userService.findResource(Convert.toLong(user.getId()));
+        // 查这个人有什么角色
+        List<GrantedAuthority> grantedAuthorities =resourceList.stream()
+                // .map(role ->new SimpleGrantedAuthority(role.getId()+":"+role.getName()))
+                .map(role ->new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
-        System.out.println("获取到的权限列表="+permissions.toString());
+
+        System.out.println("获取到的权限列表="+resourceList.toString());
 
         return new JwtUserDetails(username, passwordEncoder.encode(user.getPassword()), grantedAuthorities);
 
